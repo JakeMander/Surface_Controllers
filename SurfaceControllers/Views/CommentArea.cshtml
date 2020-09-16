@@ -1,0 +1,66 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.CommentArea>
+@using System.Activities.Statements
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+    Layout = "master.cshtml";
+}
+
+<div class="container">
+    <div class="row section w-100">
+        <div class="col-md-12">
+            @Model.Introduction
+        </div>
+    </div>
+
+    <div class="d-flex flex-column row w-100">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Comments</h1>
+            </div>
+        </div>
+    </div>
+
+    @{
+    var commentsToRender = Model.RenderComments();
+
+
+
+
+    @*
+        So we can't directly return a strongly typed list of children nodes. But what we can do is iterate through each node of type IPublishedContent and see
+        if we can cast our object into an object of type Comment and then extract all the information we require.
+    *@
+
+    foreach (var comment in commentsToRender)
+    {
+        var castedComment = comment as Comment;
+
+        if (castedComment == null)
+        {
+            <p>Comment Failed To Render</p>
+        }
+
+        else
+        {
+            <div class="row underline">
+                <div class="col-md-6">
+                    <p>
+                        Posted By: @castedComment.UsersName<br />
+                        Posted At: @castedComment.CreateDate.ToString("g")
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    @castedComment.PostComment
+                </div>
+            </div>
+
+
+        }
+    }
+
+}
+
+@Html.Action("Index", "CommentFormSurface")
+</div>
+

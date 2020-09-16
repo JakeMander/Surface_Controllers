@@ -1,0 +1,37 @@
+﻿@using SurfaceControllers.Controllers
+@model SurfaceControllers.Models.GalleryDisplayModel
+
+<!-- GALLERY DISPLAY -->
+<div class="row">
+    <div class="col-md-12">
+        <h1>Gallery</h1>
+    </div>
+</div>
+
+
+<div class="d-flex flex-row flex-wrap justify-content-center">
+    @{
+        foreach (var image in Model.ImageList)
+        {
+            <div class="GalleryContainer text-center">
+                <img src="@image.GetCropUrl("gallery")" alt="A Gallery Image" />
+            </div>
+        }
+    }
+
+</div>
+
+<!-- Image Submission Form -->
+<div class="row section">
+    @using (Html.BeginUmbracoForm<GalleryDisplaySurfaceController>("HandleFormSubmit", new Dictionary<string, object> {{"enctype", "Multipart/Form-Data"}}))
+    {
+        <div class="form-group row">
+            <input type="file" name="Files" accept="image/*" multiple/>
+            @Html.ValidationMessageFor(m => m.Files)
+        </div>
+
+        <div class="form-group row">
+            <button id="contact-submit" type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    }
+</div>

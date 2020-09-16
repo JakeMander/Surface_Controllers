@@ -1,0 +1,88 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using Umbraco.Web
+@using Umbraco.Web.Editors
+
+@{
+   
+    var selection = Model.Root().Children.Where(x => x.IsVisible()).ToArray();
+
+    if (selection.Length > 0)
+    {
+        //  Store A Reference To Our Login/Register Page So We Can Pull Them Out Of Our Collection Of Children Nodes Then Output Them
+        //  Once The
+        IPublishedContent loginPage = null;
+        IPublishedContent registerPage = null;
+        <!-- Navigation -->
+        <div class="container">
+            <nav class="navbar navbar-expand-md navbar-light">
+                <div class="container">
+                    <a class="navbar-brand font-weight-bold" href="@Model.Root().Url">Surface Controllers</a>
+
+                    <!-- Links -->
+                    <ul class="navbar-nav">
+                        @foreach (var item in selection)
+                        {
+
+                            if (item.IsDocumentType("login"))
+                            {
+                                loginPage = item;
+                                continue;
+                            }
+
+                            if (item.IsDocumentType("register"))
+                            {
+                                registerPage = item;
+                                continue;
+                            }
+
+                            if (!item.IsDocumentType("authenticationFailed"))
+                            {
+                                <li class="nav-item @(item.IsAncestorOrSelf(Model) ? "current" : null)">
+                                    <a class="nav-link" href="@item.Url">@item.Name</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    @* Make Sure We Have A Login Page AND A Register Page Assigned Before We Display Them In Our Navbar. *@
+
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#!">
+                                    <i class="fas fa fa-user"></i> Welcome @User.Identity.Name
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Logout", "LoginFormSurface")">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    Log Out
+                                </a>
+                            </li>
+
+                        }
+
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class ="nav-link" href="@registerPage.Url">
+                                    <span><i class="fas fa fa-user"></i> Register</span>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="@loginPage.Url">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Log In
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    }
+}

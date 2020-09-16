@@ -1,0 +1,18 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.ContactPage>
+@using Umbraco.Web.PropertyEditors
+@using ContentModels = Umbraco.Web.PublishedModels;
+
+@{
+	Layout = "master.cshtml";
+}
+
+<!-- Main Container -->
+<div class="container">
+    @* 
+        This Is A Child Action! This Is Because Our Contact Page Has It's Own Controller With It's Own Actions Which We Call To Render This Page
+        What We Have Essentially Done Is Created Our Own Controller For An Element We Have Created, And Are Now Calling This From Within A Single
+        HTTP Request. As We Have Essentially Called An Action From Within An Action (The Umbraco Controller "Index" Action), We Call Our Call To
+        Our Own Controller a "Child Action" 
+    *@
+    @Html.Action("Index", "ContactFormSurface")
+</div>

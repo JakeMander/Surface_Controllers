@@ -1,0 +1,69 @@
+﻿@using SurfaceControllers.Controllers
+
+@model SurfaceControllers.Models.RegistrationFormModel
+
+
+<div class="row section">
+    @{
+        if (TempData["success"] == null)
+        {
+            <!-- Form to taker users contact details -->
+            <div class="col-md-6 ">
+                @* Send A Request To The Umbraco Request Pipeline Which Will Then Hand Our Request Off To The Correct Controller Method*@
+                @using (Html.BeginUmbracoForm<RegistrationSurfaceController>("HandleFormSubmit", FormMethod.Post))
+                {
+                    Html.EnableClientValidation();
+                    Html.EnableUnobtrusiveJavaScript();
+
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(false, "", new { @class = "alert-danger" })
+
+                    <div class="form-row">
+
+                        <div class="form-group col-md-6">
+                            @Html.LabelFor(m => m.Name)
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Enter Your Full Name", @type = "text" })
+                            @Html.ValidationMessageFor(m => m.Name)
+
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            @Html.LabelFor(m => m.Email)
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter Email", @type = "email" })
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            @Html.LabelFor(m => m.Password)
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter Your Password", @type = "password" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            @Html.LabelFor(m => m.Biography)
+                            @Html.PasswordFor(m => m.Biography, new { @class = "form-control", @placeholder = "Enter A Little About Yourself", @type = "text" })
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label asp-for="Avatar"></label>
+                            <input type="file" class="form-control-file" name="Avatar" id="Avatar" accept="image/*" multiple />
+                            @Html.ValidationMessageFor(m => m.Avatar)
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>

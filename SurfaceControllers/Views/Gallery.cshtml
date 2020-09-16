@@ -1,0 +1,19 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.Gallery>
+
+@using ContentModels = Umbraco.Web.PublishedModels;
+@{
+	Layout = "master.cshtml";
+}
+
+<div class="container">
+    
+    <div class="row section w-100">
+        <div class="col-md-12">
+            @Model.BodyText
+        </div>
+    </div>
+    
+    <div class="row section w-100">
+        @Html.Action("Index", "GalleryDisplaySurface")
+    </div>
+</div>

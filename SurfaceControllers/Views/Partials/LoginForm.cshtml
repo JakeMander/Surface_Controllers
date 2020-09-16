@@ -1,0 +1,44 @@
+﻿@using SurfaceControllers.Controllers
+
+@model SurfaceControllers.Models.LoginFormModel
+<div class="row section">
+    @{
+        if (TempData["success"] == null)
+        {
+            <!-- Form to taker users contact details -->
+    <div class="col-md-6 ">
+        @* Send A Request To The Umbraco Request Pipeline Which Will Then Hand Our Request Off To The Correct Controller Method*@
+        @using (Html.BeginUmbracoForm<LoginFormSurfaceController>("Login", FormMethod.Post))
+        {
+            Html.EnableClientValidation();
+            Html.EnableUnobtrusiveJavaScript();
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(false, "", new { @class = "alert-danger" })
+
+            <div class="form-row">
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.Username)
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Enter Your Username", @type = "email" })
+                    @Html.ValidationMessageFor(m => m.Username)
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.Password)
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter Password", @type = "password" })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        }
+    </div>
+        }
+    }
+</div>

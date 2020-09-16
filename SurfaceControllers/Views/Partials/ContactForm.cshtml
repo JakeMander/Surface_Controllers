@@ -1,0 +1,63 @@
+﻿@using SurfaceControllers.Controllers
+@model SurfaceControllers.Models.ContactFormModel
+
+
+<div class="row section">
+    @{
+        if (TempData["success"] == null)
+        {
+            <!-- Form to taker users contact details -->
+            <div class="col-md-6 ">
+                @* Send A Request To The Umbraco Request Pipeline Which Will Then Hand Our Request Off To The Correct Controller Method*@
+                @using (Html.BeginUmbracoForm<ContactFormSurfaceController>("HandleFormSubmit"))
+                {
+                    <div class="form-group row">
+
+
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Enter Name", type = "text" })
+                            @Html.ValidationMessageFor(m => m.Name)
+
+                        </div>
+
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter Email", type = "email" })
+                            @Html.ValidationMessageFor(m => m.Email)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.TextAreaFor(m => m.Message, new { @class = "form-control", @placeholder = "Enter Your Comment" })
+                        @Html.ValidationMessageFor(m => m.Message)
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Description To The Right Side-->
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Contact Us</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Welcome to the Surface Controller Contact Form. If you have any concerns or queries, please do get in touch by completing the following form and tapping send!</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        else
+        {
+            <p>We'll be in touch soon</p>
+        }
+    }
+</div>
